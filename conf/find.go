@@ -8,7 +8,7 @@ import (
 	"github.com/Hayao0819/nahi/futils"
 )
 
-var configName = ".atcoderrc.json"
+var configName = ".shojinrc.json"
 
 func FindBaseDir() (*string, error) {
 	wd, err := os.Getwd()

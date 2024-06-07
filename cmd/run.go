@@ -6,8 +6,9 @@ import (
 
 	"log"
 
-	"github.com/Hayao0819/shojin/code"
 	"github.com/Hayao0819/nahi/cobrautils"
+	"github.com/Hayao0819/shojin/code"
+	"github.com/Hayao0819/shojin/conf"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
@@ -16,6 +17,9 @@ func runCmd() *cobra.Command {
 	cmd := cobra.Command{
 		Use:  "run",
 		Args: cobra.MaximumNArgs(3),
+		PersistentPreRunE: cobrautils.WithParentPersistentPreRunE(func(cmd *cobra.Command, args []string) error {
+			return conf.Initialize()
+		}),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			contest := ""
 			problem := ""

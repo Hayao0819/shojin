@@ -14,14 +14,21 @@ func GetContestDir() (string, error) {
 	return contestDir, nil
 }
 
-func ReadConfig() error {
-	return nil
-}
-
-func init() {
+func Initialize() error {
 	baseDir, err := FindBaseDir()
 	if err != nil {
-		return
+		return err
 	}
-	contestDir = path.Join(*baseDir, "src")
+
+	config, err := ReadConfig(path.Join(*baseDir, configName))
+	if err != nil {
+		return err
+	}
+
+	if path.IsAbs(config.ContestDir) {
+		contestDir = config.ContestDir
+	} else {
+		contestDir = path.Join(*baseDir, config.ContestDir)
+	}
+	return nil
 }
