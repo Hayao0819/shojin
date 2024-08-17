@@ -3,7 +3,7 @@ module github.com/Hayao0819/shojin
 go 1.21.6
 
 require (
-	github.com/Hayao0819/nahi v0.0.3-0.20240607124610-8fc5a3b3254b
+	github.com/Hayao0819/nahi v0.0.3
 	github.com/manifoldco/promptui v0.9.0
 	github.com/spf13/cobra v1.8.0
 )

@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func list() *cobra.Command {
+func listCmd() *cobra.Command {
 	cmd := cobra.Command{
 		Use: "list",
 		PersistentPreRunE: cobrautils.WithParentPersistentPreRunE(func(cmd *cobra.Command, args []string) error {
@@ -28,5 +28,5 @@ func list() *cobra.Command {
 }
 
 func init() {
-	cobrautils.RegisterSubCmd(list())
+	cobrautils.AddSubCmds(listCmd())
 }

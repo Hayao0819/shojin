@@ -133,5 +133,5 @@ func runCmd() *cobra.Command {
 }
 
 func init() {
-	cobrautils.RegisterSubCmd(runCmd())
+	cobrautils.AddSubCmds(runCmd())
 }
