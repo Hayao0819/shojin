@@ -7,8 +7,7 @@ import (
 
 func Root() *cobra.Command {
 	cmd := cobra.Command{
-		Use:           "atcoder-runner",
-		//SilenceErrors: true,
+		Use:           "shojin",
 		SilenceUsage:  true,
 	}
 	cobrautils.BindSubCmds(&cmd)
