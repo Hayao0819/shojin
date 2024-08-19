@@ -35,10 +35,8 @@ func randomCmd() *cobra.Command {
 
 			if contest != "" {
 				contest = strings.ToLower(contest)
-				println(contest)
 				filtered = lo.Filter(filtered, func(p problems.Problem, index int) bool {
 					pLowerContest := strings.ToLower(p.ContestId)
-					println(pLowerContest)
 					return strings.HasPrefix(pLowerContest, contest)
 				})
 			}
