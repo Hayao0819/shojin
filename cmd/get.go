@@ -1,17 +1,13 @@
 package cmd
 
 import (
-	"os"
-	"path"
-	"strconv"
-
 	"github.com/Hayao0819/nahi/cobrautils"
+	"github.com/Hayao0819/shojin/code"
 	"github.com/Hayao0819/shojin/conf"
-	"github.com/Hayao0819/shojin/oj"
 	"github.com/Hayao0819/shojin/problems"
 	"github.com/manifoldco/promptui"
+	"github.com/samber/lo"
 	"github.com/spf13/cobra"
-	"github.com/thoas/go-funk"
 )
 
 func getCmd() *cobra.Command {
@@ -23,11 +19,6 @@ func getCmd() *cobra.Command {
 			return conf.Initialize()
 		}),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			contestDir, err := conf.GetContestDir()
-			if err != nil {
-				return err
-			}
-
 			contest := ""
 			if len(args) > 0 {
 				contest = args[0]
@@ -38,7 +29,7 @@ func getCmd() *cobra.Command {
 					return err
 				}
 
-				contestsStr := funk.Map(contests, func(contest problems.Contest) string {
+				contestsStr := lo.Map(contests, func(contest problems.Contest, index int) string {
 					return contest.Title
 				})
 
@@ -64,7 +55,7 @@ func getCmd() *cobra.Command {
 					return err
 				}
 
-				problemsStr := funk.Map(problemlist, func(problem problems.Problem) string {
+				problemsStr := lo.Map(problemlist, func(problem problems.Problem, index int) string {
 					return problem.Title
 				})
 
@@ -85,26 +76,17 @@ func getCmd() *cobra.Command {
 				return err
 			}
 
-			if err := os.MkdirAll(path.Join(contestDir, contest, problem), 0750); err != nil {
+			if _, err := code.CreateDir(problemObj); err != nil {
 				return err
 			}
 
-			examples, err := oj.GetTestCaces(problemObj)
-			if err != nil {
+			if _, err := code.FetchTestCases(problemObj); err != nil {
 				return err
-			}
-			for i, example := range examples {
-				os.WriteFile(path.Join(contestDir, contest, problem, "ex"+strconv.Itoa(i)+".txt"), example, 0640)
 			}
 
 			if len(args) > 2 {
 				file := args[2]
-				filePath := path.Join(contestDir, contest, problem, file)
-				fileObj, err := os.Create(filePath)
-				if err != nil {
-					return err
-				}
-				if err := fileObj.Chmod(0750); err != nil {
+				if _, err := code.CreateCode(problemObj, file); err != nil {
 					return err
 				}
 			}

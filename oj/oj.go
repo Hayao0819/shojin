@@ -17,6 +17,10 @@ func Check() error {
 }
 
 func GetTestCaces(problem *problems.Problem) ([][]byte, error) {
+	if problem == nil {
+		return nil, nil
+	}
+
 	tmpdir, err := os.MkdirTemp("", "shojin")
 	if err != nil {
 		return nil, err
